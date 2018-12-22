@@ -1,9 +1,10 @@
+
+
+
 (* TEST SECTION UNTIL Q-7 *)
 (*
 CAR (CONS (INT 1,INT 2)) = INT 1;
-(CAR (INT 1) handle _ => NIL) = NIL;
 CDR (CONS (INT 1,INT 2)) = INT 2;
-(CAR (STR "K") handle _ => NIL) = NIL;
 NULL NIL = T;
 NULL (INT 1) = NIL;
 INTEGER (INT 1) = T;
@@ -37,12 +38,8 @@ EQ (CONS (NIL,INT 3),CONS (NIL,INT 4)) = NIL;
 EQ (CONS (STR "K",CONS (INT 42,NIL)),CONS (STR "K",CONS (INT 42,NIL))) = T;
 EQ (CONS (STR "K",CONS (INT 42,NIL)),CONS (STR "K",CONS (INT 43,NIL))) = NIL;
 PLUS (INT 40,INT 2) = INT 42;
-(PLUS (STR "K",INT 1) handle _ => NIL) = NIL;
-(PLUS (INT 1,STR "K") handle _ => NIL) = NIL;
 PLUS (INT 44,INT ~2) = INT 42;
 TIMES (INT 21,INT 2) = INT 42;
-(TIMES (STR "K",INT 1) handle _ => NIL) = NIL;
-(TIMES (INT 1,STR "K") handle _ => NIL) = NIL;
 TIMES (INT ~21,INT ~2) = INT 42;
 MEANING (INT 1, INT 2) = NIL;
 MEANING (STR "A",NIL) = NIL;
@@ -61,6 +58,7 @@ COND (NIL,INT 1,INT 2) = INT 2;
 COND (INT 1,INT 2,NIL) = INT 2;
 COND (INT 1,NIL,INT 2) = NIL;
 *)
+
 (* TEST SECTION FOR Q-8 ONLY*)
 (*
 (* NOTE: to use these tests you can replace the "==" operator with the EQ function *)
@@ -71,6 +69,7 @@ EVAL ((CONS (SF (UNARY INTEGER),CONS (STR "A",NIL))),NIL) == NIL;
 EVAL ((CONS (SF (BINARY PLUS),CONS (INT 1,CONS (INT 2,NIL)))),NIL) == INT 3;
 EVAL ((CONS (SF (BINARY TIMES),CONS (INT 5,CONS (INT 2,NIL)))),NIL) == INT 10;
 *)
+
 (* TEST SECTION FOR Q-9 ONLY*)
 (*
 (* NOTE: to use these tests you can replace the "==" with EQ function *)
