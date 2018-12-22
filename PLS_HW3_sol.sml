@@ -37,7 +37,7 @@ applyif (fn x => x * x) (fn x => x > 5) [1, 3, 5, 7, 9, 11];
 applyif (fn x => (fn x => x-10)) (fn x => x(7) < 10) [fn x => x+8, fn x => x * x, fn x => 12, fn x => x mod 13];
 
 (* Ex F: Retunrs a new list from index e to index (e-1). *)
-fun slice a (s,e) = List.drop ((List.take (a,e)),s);
+fun slice a (s,e) = List.drop ((List.take (a,e)),s); 
 
 slice [0, 0, 1, 1] (2, 4);
 slice [0, 0, 1, 0] (2, 3);
