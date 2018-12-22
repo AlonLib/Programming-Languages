@@ -264,7 +264,6 @@ EVAL (CONS (NORMAL (BINARY MEANING),
 				CONS (NIL,NIL))),env) === NIL;
 
 "~ TESTS #11 ~";
-
 EVAL (CONS (EAGER (BINARY PLUS),
 			CONS (b, 
 				CONS (b,NIL))),NIL) === INT 4;
@@ -284,3 +283,14 @@ EVAL (CONS (EAGER (TRINARY COND),
 				CONS (d,
 					CONS (b,NIL)))
 			),NIL) === INT 4;
+"~ TESTS #12 ~";
+SETQ (STR "B",b) NIL === CONS (CONS (STR "B",INT 2),NIL);
+EVAL (CONS (NORMAL (BINARY SETQ),
+			CONS (STR "B", 
+				CONS (b,NIL))),NIL)
+	=== CONS (CONS (STR "B",INT 2),NIL);
+EVAL (CONS (EAGER (BINARY SETQ),
+			CONS (STR "B", 
+				CONS (STR "C",NIL))),env)
+	=== CONS (CONS (INT 2,INT 3),env);
+
