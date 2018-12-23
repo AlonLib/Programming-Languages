@@ -106,7 +106,7 @@ val b = (CONS (NORMAL (UNARY QUOTE),
 val d = CONS (NORMAL (UNARY QUOTE),
 			CONS (INT 4,NIL));
 
-print "\nAll output should be like this:\n";
+print "\nAll output should be unit or T like this:\n";
 INT 1 === INT 1;
 
 print "\n~ STAFF TESTS (except quote) ~\n";
@@ -237,12 +237,12 @@ EVAL (CONS (EAGER (BINARY TIMES),
 EVAL (CONS (EAGER (BINARY TIMES),
 			CONS (c, 
 				CONS (b,NIL))),NIL) === INT 6;
-EVAL (CONS (EAGER (TRINARY COND),
+EVAL (CONS (NORMAL (TRINARY COND),
 			CONS (NIL,
 				CONS (b,
 					CONS (d,NIL)))
 			),NIL) === INT 4;
-EVAL (CONS (EAGER (TRINARY COND),
+EVAL (CONS (NORMAL (TRINARY COND),
 			CONS (b,
 				CONS (d,
 					CONS (b,NIL)))
@@ -254,18 +254,21 @@ EVAL (CONS (NORMAL (BINARY SETQ),
 			CONS (STR "B", 
 				CONS (b,NIL))),NIL)
 	=== CONS (CONS (STR "B",INT 2),NIL);
-EVAL (CONS (EAGER (BINARY SETQ),
+EVAL (CONS (NORMAL (BINARY SETQ),
 			CONS (STR "B", 
 				CONS (STR "C",NIL))),env)
-	=== CONS (CONS (INT 2,INT 3),env);
+	=== CONS (CONS (STR "B",INT 3),env);
 
 print "\n~ TESTS #13 ~\n";
 EVAL (CONS (EAGER (BINARY PLUS),
 			CONS (STR "B", 
 				CONS (INT 1,NIL))),env)
 	=== INT 3;
+(*EVAL (CONS (NORMAL (UNARY LST),
+			CONS (CONS (INT 1,CONS (INT 2,CONS (INT 3,NIL))), 
+				NIL)),NIL) === T;*)
 EVAL (CONS (NORMAL (TRINARY COND),
-			CONS (CONS (EAGER (BINARY EQ),CONS (NIL,CONS (INT 1,NIL))),
+			CONS (CONS (NORMAL (BINARY EQ),CONS (NIL,CONS (INT 1,NIL))),
 				CONS (d,
 					CONS (b,NIL)))
 			),NIL) === INT 2;
@@ -301,3 +304,4 @@ EVAL (CONS (NORMAL (TRINARY COND),
 				CONS (d,
 					CONS (EAGER (BINARY PLUS),NIL)))
 			),NIL) === INT 4;
+
