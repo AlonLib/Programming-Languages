@@ -94,27 +94,22 @@ EQ(NORMAL (UNARY (fn a => a)),EAGER (UNARY (fn a => a))) == NIL;
 
 
 (* FINAL TESTS *)
-"~ BASIC TESTS ~";
+
+print "\n\n~ Test Prepartion ~\n";
 infix ===
 fun arg1 === arg2 = EQ (arg1,arg2) NIL;
-infix !==
-fun arg1 !== arg2 = NULL (arg1 === arg2) NIL;
 val env = SETQ (STR "C", INT 3) (SETQ (STR "B",INT 2) NIL);
-val c = (CONS (NORMAL (BINARY MEANING),
-			CONS (STR "C",
-				CONS (env,NIL))));
-val b = (CONS (NORMAL (BINARY MEANING),
-			CONS (STR "B",
-				CONS (env,NIL))));
-val d = CONS (NORMAL (UNARY CAR),
-			CONS (CONS (INT 4, INT 2),
-				NIL));
+val c = (CONS (NORMAL (UNARY QUOTE),
+			CONS (INT 3,NIL)));
+val b = (CONS (NORMAL (UNARY QUOTE),
+			CONS (INT 2,NIL)));
+val d = CONS (NORMAL (UNARY QUOTE),
+			CONS (INT 4,NIL));
 
+print "\nAll output should be like this:\n";
 INT 1 === INT 1;
-INT 1 !== INT 2;
-INT 1 !== NIL;
 
-"~ STAFF TESTS ~";
+print "\n~ STAFF TESTS (except quote) ~\n";
 CAR (CONS (INT 5, INT 6)) NIL === INT 5;
 CDR (CONS (INT 5, INT 6)) NIL === INT 6;
 NULL NIL NIL === STR "T";
@@ -123,9 +118,10 @@ INTEGER (INT 1000) NIL === STR "T";
 INTEGER (STR "ABC") NIL === NIL;
 LST (CONS (CONS(INT 5, NIL), NIL)) NIL === STR "T";
 LST (CONS (CONS(INT 5, INT 5), NIL)) NIL === NIL;
-QUOTE (CONS (EAGER (BINARY PLUS), 
+(*QUOTE (CONS (EAGER (BINARY PLUS), 
      CONS (INT 5, CONS (INT 7, NIL)))) NIL
-	=== CONS (EAGER (BINARY PLUS),CONS (INT 5,CONS (INT 7, NIL)));
+	=== CONS (EAGER (BINARY PLUS),CONS (INT 5,CONS (INT 7, NIL)));*)
+(*Check this test manually because you dont need to compare function types*)
 QUOTE (STR "AB") NIL === STR "AB";
 EQ (CONS (STR "A", INT 6), 
         CONS (STR "B", INT 6)) NIL === NIL;
@@ -143,7 +139,7 @@ COND(CONS(NORMAL (UNARY QUOTE),
 SETQ (STR "B", INT 67) (CONS (CONS (STR "A", INT 56), NIL))
 	=== CONS (CONS (STR "B",INT 67),CONS (CONS (STR "A",INT 56),NIL));
 
-"~ TESTS #1 ~";
+print "\n~ TESTS #01 ~\n";
 CAR (CONS (INT 1,INT 2)) NIL === INT 1;
 CDR (CONS (INT 1,INT 2)) NIL === INT 2;
 NULL NIL NIL === T;
@@ -161,7 +157,7 @@ LST (CONS (CONS (NIL,NIL),NIL)) NIL === T;
 LST (CONS (CONS (INT 1,NIL),NIL)) NIL === T;
 LST (CONS (CONS (INT 1,CONS (INT 2,NIL)),NIL)) NIL === T;
 
-"~ TESTS #2 ~";
+print "\n~ TESTS #02 ~\n";
 LST (INT 1) NIL === NIL;
 LST (CONS (NIL,INT 1)) NIL === NIL;
 LST (CONS (INT 1,INT 1)) NIL === NIL;
@@ -172,7 +168,7 @@ LST (CONS (CONS (NIL,INT 1),NIL)) NIL === NIL;
 LST (CONS (CONS (INT 1,INT 2),NIL)) NIL === NIL;
 LST (CONS (CONS (INT 1,CONS (INT 2,INT 3)),NIL)) NIL === NIL;
 
-"~ TESTS #3 ~";
+print "\n~ TESTS #03 ~\n";
 EQ (NIL,NIL) NIL === T;
 EQ (INT 1,INT 1) NIL === T;
 EQ (INT 1,INT 2) NIL === NIL;
@@ -182,37 +178,30 @@ EQ (CONS (INT 1,INT 3),CONS (NIL,INT 3)) NIL === NIL;
 EQ (CONS (NIL,INT 3),CONS (NIL,INT 4)) NIL === NIL;
 EQ (CONS (STR "K",CONS (INT 42,NIL)),CONS (STR "K",CONS (INT 42,NIL))) NIL === T;
 EQ (CONS (STR "K",CONS (INT 42,NIL)),CONS (STR "K",CONS (INT 43,NIL))) NIL === NIL;
-EQ (NORMAL (UNARY (fn a => fn e => a)),NORMAL (BINARY (fn (a,b) => fn e => a))) NIL === NIL;
-EQ (NORMAL (UNARY (fn a => fn e => a)),NORMAL (UNARY (fn a => fn e => a))) NIL === T;
-EQ (NORMAL (UNARY (fn a => fn e => a)),EAGER (UNARY (fn a => fn e => a))) NIL === NIL;
 
-"~ TESTS #4 ~";
+print "\n~ TESTS #04 ~\n";
 PLUS (INT 40,INT 2) NIL === INT 42;
 PLUS (INT 44,INT ~2) NIL === INT 42;
 TIMES (INT 21,INT 2) NIL === INT 42;
 TIMES (INT ~21,INT ~2) NIL === INT 42;
 
-"~ TESTS #5 ~";
-MEANING (INT 1, INT 2) NIL === NIL;
+print "\n~ TESTS #05 ~\n";
 MEANING (STR "A",NIL) NIL === NIL;
-MEANING (STR "A",CONS(STR "A",INT 1)) NIL === NIL;
 MEANING (STR "A",CONS (CONS (STR "A",INT 1),NIL)) NIL === INT 1;
-MEANING (STR "A",CONS (CONS (INT 1,STR "A"),NIL)) NIL === NIL;
-MEANING (STR "A",CONS (CONS (NIL,STR "A"),NIL)) NIL === NIL;
+MEANING (STR "A",CONS (CONS (STR "B",STR "A"),NIL)) NIL === NIL;
 MEANING (STR "A",CONS (CONS (STR "A",NIL),NIL)) NIL === NIL;
-MEANING (NIL,CONS (CONS (STR "A",STR "B"),NIL)) NIL === NIL;
 MEANING (STR "A",CONS (CONS (STR "B",STR "C"),CONS (CONS (STR "A",STR "D"),NIL))) NIL === STR "D";
 MEANING (STR "A",CONS (CONS (STR "A",STR "B"),CONS (CONS (STR "A",STR "C"),NIL))) NIL === STR "B";
 MEANING (STR "A",CONS (CONS (STR "B",STR "A"),CONS (CONS (STR "C",STR "A"),NIL))) NIL === NIL;
 
-"~ TESTS #6 ~";
+print "\n~ TESTS #06 ~\n";
 COND (NIL,NIL,NIL) NIL === NIL;
 COND (NIL,NIL,INT 1) NIL === INT 1;
 COND (NIL,INT 1,INT 2) NIL === INT 2;
 COND (INT 1,INT 2,NIL) NIL === INT 2;
 COND (INT 1,NIL,INT 2) NIL === NIL;
 
-"~ TESTS #7 ~";
+print "\n~ TESTS #07 ~\n";
 EVAL (NIL,NIL) === NIL;
 EVAL ((INT 2),NIL) === INT 2;
 EVAL ((CONS (EAGER (UNARY INTEGER),CONS (INT 1,NIL))),NIL) === T;
@@ -220,7 +209,7 @@ EVAL ((CONS (EAGER (UNARY INTEGER),CONS (STR "A",NIL))),NIL) === NIL;
 EVAL ((CONS (EAGER (BINARY PLUS),CONS (INT 1,CONS (INT 2,NIL)))),NIL) === INT 3;
 EVAL ((CONS (EAGER (BINARY TIMES),CONS (INT 5,CONS (INT 2,NIL)))),NIL) === INT 10;
 
-"~ TESTS #8 ~";
+print "\n~ TESTS #08 ~\n";
 SETQ (NIL,INT 1) NIL === CONS (CONS (NIL,INT 1),NIL);
 COND (CONS(NORMAL (UNARY QUOTE),CONS(T, NIL)),INT 5,STR "7") 
      (CONS(CONS(STR "7", INT 14), NIL))
@@ -230,39 +219,15 @@ COND (NIL,INT 5,STR "7")
      === INT 14;
 
 
-"~ TESTS #9 ~";
+print "\n~ TESTS #09 ~\n";
 EVAL (CONS (EAGER (BINARY PLUS), CONS (INT 5, CONS (INT 7, NIL))), NIL) === INT 12;
-EVAL ((CONS (NORMAL (UNARY CAR),CONS (CONS (INT 1, INT 2),NIL))),NIL) === INT 1;
-EVAL (CONS (EAGER (BINARY PLUS),
-		CONS (INT 5,
-		CONS (CONS (NORMAL (UNARY CAR),
-				CONS (CONS (INT 3, INT 2),
-	NIL)), NIL))), NIL) === INT 8;
-EVAL (CONS (EAGER (BINARY TIMES),
-		CONS (CONS (NORMAL (UNARY CDR),
-				CONS (CONS (INT 2,INT 3),NIL)),
-		CONS (CONS (NORMAL (UNARY CAR),
-				CONS (CONS (INT 4,INT 5),NIL)),
-	NIL))), NIL) === INT 12;
 
-"~ TESTS #10 ~";
+print "\n~ TESTS #10 ~\n";
 env === CONS (CONS (STR "C",INT 3),CONS (CONS (STR "B",INT 2),NIL));
 MEANING (STR "C",env) NIL === INT 3;
 MEANING (STR "C",NIL) env === NIL;
-EVAL (CONS (NORMAL (UNARY CAR),
-			CONS (CONS (INT 1, INT 2),
-				NIL)),NIL) === INT 1;
-EVAL (CONS (NORMAL (UNARY CDR),
-			CONS (CONS (INT 1, INT 2),
-				NIL)),NIL) === INT 2;
-EVAL (CONS (NORMAL (BINARY MEANING),
-			CONS (STR "C",
-				CONS (env,NIL))),NIL) === INT 3;
-EVAL (CONS (NORMAL (BINARY MEANING),
-			CONS (STR "C",
-				CONS (NIL,NIL))),env) === NIL;
 
-"~ TESTS #11 ~";
+print "\n~ TESTS #11 ~\n";
 EVAL (CONS (EAGER (BINARY PLUS),
 			CONS (b, 
 				CONS (b,NIL))),NIL) === INT 4;
@@ -282,7 +247,8 @@ EVAL (CONS (EAGER (TRINARY COND),
 				CONS (d,
 					CONS (b,NIL)))
 			),NIL) === INT 4;
-"~ TESTS #12 ~";
+
+print "\n~ TESTS #12 ~\n";
 SETQ (STR "B",b) NIL === CONS (CONS (STR "B",INT 2),NIL);
 EVAL (CONS (NORMAL (BINARY SETQ),
 			CONS (STR "B", 
@@ -293,3 +259,45 @@ EVAL (CONS (EAGER (BINARY SETQ),
 				CONS (STR "C",NIL))),env)
 	=== CONS (CONS (INT 2,INT 3),env);
 
+print "\n~ TESTS #13 ~\n";
+EVAL (CONS (EAGER (BINARY PLUS),
+			CONS (STR "B", 
+				CONS (INT 1,NIL))),env)
+	=== INT 3;
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (CONS (EAGER (BINARY EQ),CONS (NIL,CONS (INT 1,NIL))),
+				CONS (d,
+					CONS (b,NIL)))
+			),NIL) === INT 2;
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (CONS (EAGER (BINARY PLUS),CONS (INT 3,CONS (INT 3,NIL))),
+				CONS (d,
+					CONS (b,NIL)))
+			),NIL) === INT 4;
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (INT 1,
+				CONS (STR "B",
+					CONS (c,NIL)))
+			),env) === INT 2;
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (NIL,
+				CONS (STR "B",
+					CONS (STR "C",NIL)))
+			),env) === INT 3;
+
+print "\n~ TESTS #14 ~\n";
+EVAL (CONS 
+	(NORMAL (UNARY QUOTE), 
+		CONS (INT 3,NIL))
+	,NIL) === INT 3;
+(* Following tests will fail if you try to EVAL the wrong argument of COND *)
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (CONS (EAGER (BINARY EQ),CONS (NIL,CONS (INT 1,NIL))),
+				CONS (EAGER (BINARY PLUS),
+					CONS (b,NIL)))
+			),NIL) === INT 2;
+EVAL (CONS (NORMAL (TRINARY COND),
+			CONS (CONS (EAGER (BINARY PLUS),CONS (INT 3,CONS (INT 3,NIL))),
+				CONS (d,
+					CONS (EAGER (BINARY PLUS),NIL)))
+			),NIL) === INT 4;
